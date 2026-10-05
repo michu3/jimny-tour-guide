@@ -202,7 +202,7 @@
     <div id="content-day1" class="space-y-3">
 
       <!-- 一括全行程ナビボタン -->
-      <a href="https://www.google.com/maps/dir/?api=1&origin=神奈川県川崎市高津区子母口&destination=ボナリの森&waypoints=上河内SA下り%7CENEOS+野口記念館SS%7Cまるいち食堂+猪苗代%7C榮川酒造+ゆっ蔵%7C中津川渓谷レストハウス%7C達沢不動滝+駐車場" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-orange-600 active:bg-orange-700 text-white font-bold text-sm shadow-sm transition">
+      <a href="https://www.google.com/maps/dir/?api=1&origin=神奈川県川崎市高津区子母口&destination=ボナリの森&waypoints=上河内SA下り%7CENEOS+野口記念館SS%7Cまるいち食堂+猪苗代%7C龍ヶ沢湧水%7C中津川渓谷レストハウス%7C達沢不動滝+駐車場" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-orange-600 active:bg-orange-700 text-white font-bold text-sm shadow-sm transition">
         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         <span>DAY 1 全行程をGoogle Mapsで一括ナビ</span>
       </a>
@@ -292,12 +292,18 @@
           まるいち食堂から県道7号を西へ約15分、磐梯町更科の「榮川酒造」裏手からスタート。磐梯山南麓の広葉樹林を縫うよく締まったフラットダート（全長約7.2km）。<br>
           途中、名水百選に選ばれる<strong>「龍ヶ沢湧水」</strong>で名水を味わい、森林浴を楽しみながらそのままゴールドライン（八幡口）へ直通突入できます！
         </p>
-        <div class="grid grid-cols-2 gap-2 mt-3">
-          <a href="https://www.google.com/maps/dir/?api=1&destination=榮川酒造+ゆっ蔵" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2.5 rounded-xl bg-emerald-600 active:bg-emerald-700 text-white font-bold text-xs shadow-2xs">
-            <span>🌲 林道起点(榮川酒造)</span>
+        <!-- 特大メインナビボタン -->
+        <a href="https://www.google.com/maps/dir/?api=1&destination=37.57722,139.98361+(林道北堰赤枝線・龍ヶ沢湧水)&travelmode=driving" target="_blank" rel="noopener noreferrer" class="mt-3 flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-emerald-600 active:bg-emerald-700 text-white font-bold text-sm shadow-sm transition">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>🌲 林道 北堰赤枝線（ダート7km）へナビ開始</span>
+        </a>
+        <!-- サブナビ（起点・湧水ピンポイント） -->
+        <div class="grid grid-cols-2 gap-2 mt-2">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=榮川酒造+ゆっ蔵" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2 rounded-lg bg-emerald-50 active:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-[11px]">
+            <span>📍 林道更科起点(榮川酒造)</span>
           </a>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=龍ヶ沢湧水" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2.5 rounded-xl bg-teal-600 active:bg-teal-700 text-white font-bold text-xs shadow-2xs">
-            <span>💧 龍ヶ沢湧水 ナビ</span>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=龍ヶ沢湧水" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2 rounded-lg bg-teal-50 active:bg-teal-100 text-teal-800 border border-teal-200 font-bold text-[11px]">
+            <span>💧 龍ヶ沢湧水(名水)</span>
           </a>
         </div>
       </div>
@@ -549,49 +555,150 @@
   </main>
 
   <!-- ==================== 片手操作・固定ボトムバー ==================== -->
-  <aside class="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-2.5 shadow-lg">
-    <div class="max-w-lg mx-auto flex items-center gap-3">
-      <div class="flex-1 min-w-0">
-        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Quick Direct Navigation</div>
-        <div id="bottomNavLabel" class="text-xs font-bold text-slate-800 truncate">Day 1: 上河内SA (下り)</div>
+  <aside class="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 shadow-lg">
+    <div class="max-w-lg mx-auto flex items-center gap-2">
+      <!-- 前へボタン -->
+      <button onclick="stepSpot(-1)" title="前のスポット" class="w-8 h-9 flex items-center justify-center rounded-xl bg-slate-100 active:bg-slate-200 text-slate-700 font-bold text-xs shrink-0 cursor-pointer">
+        ◀
+      </button>
+
+      <!-- 現在選択中の目的地（タップでセレクター表示） -->
+      <div class="flex-1 min-w-0 cursor-pointer px-1" onclick="openSpotSelector()">
+        <div class="flex items-center gap-1.5">
+          <span class="text-[9px] font-extrabold uppercase tracking-wider text-orange-600" id="bottomNavBadge">Day 1</span>
+          <span class="text-[9px] text-slate-400 font-medium">タップで切替 ▾</span>
+        </div>
+        <div id="bottomNavLabel" class="text-xs font-bold text-slate-900 truncate mt-0.5">上河内SA (下り)</div>
       </div>
+
+      <!-- 次へボタン -->
+      <button onclick="stepSpot(1)" title="次のスポット" class="w-8 h-9 flex items-center justify-center rounded-xl bg-slate-100 active:bg-slate-200 text-slate-700 font-bold text-xs shrink-0 cursor-pointer">
+        ▶
+      </button>
+
+      <!-- メインナビ起動ボタン -->
       <a id="bottomNavBtn" href="https://www.google.com/maps/dir/?api=1&destination=上河内SA+下り" target="_blank" rel="noopener noreferrer" class="shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-orange-600 active:bg-orange-700 text-white text-xs font-bold shadow-sm transition">
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        <span>今すぐナビ起動</span>
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span>ナビ起動</span>
       </a>
     </div>
   </aside>
 
+  <!-- ==================== ナビ目的地選択モーダル ==================== -->
+  <div id="spotModal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4" onclick="closeSpotSelector(event)">
+    <div class="bg-white rounded-t-3xl sm:rounded-2xl max-w-lg w-full max-h-[80vh] flex flex-col shadow-2xl p-4 animate-in slide-in-from-bottom duration-200" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-900">クイック・ナビ目的地を選択</h3>
+          <p class="text-[11px] text-slate-500 mt-0.5">ワンタップで下部バーのナビ先を切り替えます</p>
+        </div>
+        <button onclick="closeSpotSelector()" class="p-1.5 rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 font-bold text-xs">✕</button>
+      </div>
+      <div id="spotListContainer" class="overflow-y-auto space-y-1.5 py-3 divide-y divide-slate-100 text-xs">
+        <!-- JSで動的生成 -->
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== モバイルスクリプト ==================== -->
   <script>
     let currentDay = 'day1';
+    let currentSpotIndex = 1; // 初期値: 上河内SA
+
+    const spotsDay1 = [
+      { id: 'card-d1-1', name: '自宅出発 (川崎子母口)', dest: '神奈川県川崎市高津区子母口', tag: 'START' },
+      { id: 'card-d1-2', name: '上河内SA (下り)', dest: '上河内SA+下り', tag: '休憩' },
+      { id: 'card-d1-3', name: 'ENEOS 野口記念館SS (猪苗代)', dest: 'ENEOS+野口記念館SS', tag: '給油' },
+      { id: 'card-d1-4', name: 'まるいち食堂 (名物ソースカツ丼)', dest: 'まるいち食堂+猪苗代', tag: 'ランチ' },
+      { id: 'card-d1-4b', name: '🌲 林道 北堰赤枝線 (ダート7km・龍ヶ沢湧水)', dest: '37.57722,139.98361+(林道北堰赤枝線・龍ヶ沢湧水)', tag: 'ダート①' },
+      { id: 'card-d1-5', name: '磐梯山ゴールドライン (八方台)', dest: '磐梯山ゴールドライン+八方台', tag: '絶景峠' },
+      { id: 'card-d1-5', name: '中津川渓谷レストハウス (レークライン)', dest: '中津川渓谷レストハウス', tag: '渓谷' },
+      { id: 'card-d1-6', name: '🌲 達沢不動滝 (ブナ原生林ダート)', dest: '達沢不動滝+駐車場', tag: 'ダート②' },
+      { id: 'card-d1-7', name: 'ボナリの森 (中ノ沢温泉)', dest: 'ボナリの森', tag: 'HOTEL' }
+    ];
+
+    const spotsDay2 = [
+      { id: 'card-d2-1', name: 'ボナリの森 出発', dest: 'ボナリの森', tag: 'START' },
+      { id: 'card-d2-2', name: '磐梯吾妻スカイライン (浄土平)', dest: '浄土平ビジターセンター', tag: '火口絶景' },
+      { id: 'card-d2-2', name: '不動沢橋・つばくろ谷', dest: '不動沢橋+つばくろ谷', tag: '渓谷橋' },
+      { id: 'card-d2-3', name: '福島大笹生IC (相馬福島道路)', dest: '福島大笹生IC', tag: '無料高速' },
+      { id: 'card-d2-4', name: '🐟 松川浦 海鮮ランチ (浜の駅/くぁせっと)', dest: '浜の駅+松川浦', tag: '海鮮' },
+      { id: 'card-d2-5', name: '⛽ ENEOS 相馬バイパス店 (満タン給油)', dest: 'ENEOS+Dr.Drive+相馬バイパス店', tag: '満タン' },
+      { id: 'card-d2-6', name: '中郷SA (上り)', dest: '中郷SA+上り', tag: '常磐道' },
+      { id: 'card-d2-6', name: '守谷SA (上り)', dest: '守谷SA+上り', tag: '休憩' },
+      { id: 'card-d2-7', name: '自宅到着 (川崎子母口)', dest: '神奈川県川崎市高津区子母口', tag: 'GOAL' }
+    ];
+
+    function getCurrentList() {
+      return currentDay === 'day1' ? spotsDay1 : spotsDay2;
+    }
+
+    function updateBottomNav() {
+      const list = getCurrentList();
+      if (currentSpotIndex < 0) currentSpotIndex = 0;
+      if (currentSpotIndex >= list.length) currentSpotIndex = list.length - 1;
+
+      const spot = list[currentSpotIndex];
+      const bottomLabel = document.getElementById('bottomNavLabel');
+      const bottomBadge = document.getElementById('bottomNavBadge');
+      const bottomBtn = document.getElementById('bottomNavBtn');
+
+      bottomBadge.innerText = (currentDay === 'day1' ? 'Day 1' : 'Day 2') + ` [${spot.tag}]`;
+      bottomLabel.innerText = spot.name;
+      bottomBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${spot.dest}&travelmode=driving`;
+
+      if (currentDay === 'day1') {
+        bottomBtn.className = "shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-orange-600 active:bg-orange-700 text-white text-xs font-bold shadow-sm transition";
+        bottomBadge.className = "text-[9px] font-extrabold uppercase tracking-wider text-orange-600";
+      } else {
+        bottomBtn.className = "shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-sky-600 active:bg-sky-700 text-white text-xs font-bold shadow-sm transition";
+        bottomBadge.className = "text-[9px] font-extrabold uppercase tracking-wider text-sky-600";
+      }
+    }
+
+    function stepSpot(delta) {
+      currentSpotIndex += delta;
+      updateBottomNav();
+      const list = getCurrentList();
+      const spot = list[currentSpotIndex];
+      const card = document.getElementById(spot.id);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function setSpot(index) {
+      currentSpotIndex = index;
+      updateBottomNav();
+      closeSpotSelector();
+      const list = getCurrentList();
+      const spot = list[currentSpotIndex];
+      const card = document.getElementById(spot.id);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
 
     function switchDay(day) {
       currentDay = day;
+      currentSpotIndex = 1; // 最初の移動スポット
       const btn1 = document.getElementById('tab-btn-day1');
       const btn2 = document.getElementById('tab-btn-day2');
       const content1 = document.getElementById('content-day1');
       const content2 = document.getElementById('content-day2');
-      const bottomLabel = document.getElementById('bottomNavLabel');
-      const bottomBtn = document.getElementById('bottomNavBtn');
 
       if (day === 'day1') {
         btn1.className = "py-2 rounded-lg bg-white text-orange-600 shadow-xs transition text-center cursor-pointer";
         btn2.className = "py-2 rounded-lg text-slate-500 hover:text-slate-800 transition text-center cursor-pointer";
         content1.classList.remove('hidden');
         content2.classList.add('hidden');
-        bottomLabel.innerText = "Day 1 次: 上河内SA (下り)";
-        bottomBtn.href = "https://www.google.com/maps/dir/?api=1&destination=上河内SA+下り";
-        bottomBtn.className = "shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-orange-600 active:bg-orange-700 text-white text-xs font-bold shadow-sm transition";
       } else {
         btn2.className = "py-2 rounded-lg bg-white text-sky-600 shadow-xs transition text-center cursor-pointer";
         btn1.className = "py-2 rounded-lg text-slate-500 hover:text-slate-800 transition text-center cursor-pointer";
         content2.classList.remove('hidden');
         content1.classList.add('hidden');
-        bottomLabel.innerText = "Day 2 次: 浄土平ビジターセンター";
-        bottomBtn.href = "https://www.google.com/maps/dir/?api=1&destination=浄土平ビジターセンター";
-        bottomBtn.className = "shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-sky-600 active:bg-sky-700 text-white text-xs font-bold shadow-sm transition";
       }
+      updateBottomNav();
     }
 
     function toggleDone(cardId) {
@@ -599,13 +706,57 @@
       if (!card) return;
       card.classList.toggle('completed');
       const btn = card.querySelector('.check-btn');
-      if (card.classList.contains('completed')) {
+      const isCompleted = card.classList.contains('completed');
+      if (isCompleted) {
         btn.innerText = '取消 ↺';
         btn.className = 'text-xs text-emerald-600 font-bold check-btn';
       } else {
         btn.innerText = '完了にする ✓';
         btn.className = 'text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn';
       }
+
+      // 完了したスポットの次へ自動送り
+      const list = getCurrentList();
+      const currentIndex = list.findIndex(s => s.id === cardId);
+      if (currentIndex !== -1 && isCompleted) {
+        // 次の未完了スポットを探す
+        for (let i = currentIndex + 1; i < list.length; i++) {
+          const nextCard = document.getElementById(list[i].id);
+          if (nextCard && !nextCard.classList.contains('completed')) {
+            currentSpotIndex = i;
+            updateBottomNav();
+            break;
+          }
+        }
+      }
+    }
+
+    function openSpotSelector() {
+      const modal = document.getElementById('spotModal');
+      const container = document.getElementById('spotListContainer');
+      const list = getCurrentList();
+      container.innerHTML = '';
+
+      list.forEach((spot, idx) => {
+        const isCurrent = (idx === currentSpotIndex);
+        const item = document.createElement('div');
+        item.className = `p-2.5 rounded-xl flex items-center justify-between cursor-pointer transition ${isCurrent ? 'bg-orange-50 border border-orange-200' : 'hover:bg-slate-50'}`;
+        item.onclick = () => setSpot(idx);
+        item.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] px-1.5 py-0.5 rounded ${isCurrent ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-600'} font-bold">${spot.tag}</span>
+            <span class="font-bold text-slate-800 ${isCurrent ? 'text-orange-600' : ''}">${spot.name}</span>
+          </div>
+          ${isCurrent ? '<span class="text-orange-600 font-bold text-xs">選択中 ✓</span>' : '<span class="text-slate-400 text-xs">選択 ➔</span>'}
+        `;
+        container.appendChild(item);
+      });
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeSpotSelector(e) {
+      document.getElementById('spotModal').classList.add('hidden');
     }
 
     function toggleMapModal() {
@@ -616,6 +767,9 @@
         setTimeout(() => mapSec.classList.remove('ring-2', 'ring-orange-400'), 1000);
       }
     }
+
+    // 初期化
+    updateBottomNav();
   </script>
 </body>
 </html>
