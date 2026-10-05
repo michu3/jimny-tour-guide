@@ -1,0 +1,10 @@
+# Ignore temporary files and metadata
+.system_generated/
+.user_uploaded/
+scratch/
+*.metadata.json
+*.gscript
+
+# Exclude scratch comparisons (keep repo focused on mobile guide)
+inn_comparison.html
+jimny_bandai_route_map.html

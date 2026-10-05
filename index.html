@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ジムニーで行く 会津・磐梯山・松川浦 スマホナビツアーガイド</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    /* なめらかなタッチスクロール */
+    .smooth-scroll {
+      scroll-behavior: smooth;
+    }
+    /* パルスアニメーション */
+    @keyframes navPulse {
+      0%, 100% { transform: scale(1); opacity: 0.95; }
+      50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.7)); }
+    }
+    .pulse-pin {
+      animation: navPulse 2s infinite ease-in-out;
+    }
+    /* チェック済みカードのスタイル */
+    .spot-card.completed {
+      opacity: 0.6;
+      border-color: #cbd5e1;
+      background-color: #f8fafc;
+    }
+    .spot-card.completed .spot-title {
+      text-decoration: line-through;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased pb-28 smooth-scroll selection:bg-orange-100 selection:text-orange-900">
+
+  <!-- ==================== 固定ヘッダー ==================== -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 py-3 shadow-xs">
+    <div class="max-w-lg mx-auto flex items-center justify-between">
+      <div>
+        <div class="flex items-center gap-1.5">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          <span class="text-[11px] font-bold tracking-wider uppercase text-emerald-600">Jimny Tour Guide</span>
+          <span class="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 font-medium">10/16(金)〜17(土)</span>
+        </div>
+        <h1 class="text-base font-extrabold text-slate-900 tracking-tight leading-tight mt-0.5">
+          会津・磐梯山 ⇄ 松川浦ツアー
+        </h1>
+      </div>
+      <button onclick="toggleMapModal()" class="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-orange-50 active:bg-orange-100 text-orange-600 border border-orange-200 text-xs font-bold transition shadow-2xs">
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/></svg>
+        <span>全体マップ</span>
+      </button>
+    </div>
+
+    <!-- Day1 / Day2 タブスイッチャー -->
+    <div class="max-w-lg mx-auto grid grid-cols-2 gap-2 mt-2.5 p-1 bg-slate-100/90 rounded-xl text-xs font-bold">
+      <button onclick="switchDay('day1')" id="tab-btn-day1" class="py-2 rounded-lg bg-white text-orange-600 shadow-xs transition text-center cursor-pointer">
+        DAY 1 (金)<br><span class="text-[10px] font-normal text-slate-500">カツ丼・林道ダート・名湯</span>
+      </button>
+      <button onclick="switchDay('day2')" id="tab-btn-day2" class="py-2 rounded-lg text-slate-500 hover:text-slate-800 transition text-center cursor-pointer">
+        DAY 2 (土)<br><span class="text-[10px] font-normal text-slate-500">スカイライン・海鮮・常磐道</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== メインコンテナ ==================== -->
+  <main class="max-w-lg mx-auto px-4 mt-3 space-y-4">
+
+    <!-- 全体像イメージマップ（アコーディオン式・初期表示） -->
+    <section id="mapSection" class="bg-white border border-slate-200/80 rounded-2xl p-3.5 shadow-xs overflow-hidden">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
+          <h2 class="text-xs font-bold text-slate-800 uppercase tracking-wide">ルート全体像イメージ</h2>
+        </div>
+        <span class="text-[10px] text-slate-400 font-medium">ピンをタップで直通ナビ</span>
+      </div>
+
+      <!-- SVG 全体像ルートマップ -->
+      <div class="relative bg-slate-50 rounded-xl border border-slate-200/70 p-2 overflow-hidden">
+        <svg id="overviewSvg" viewBox="0 0 380 260" class="w-full h-auto select-none">
+          <defs>
+            <filter id="pinShadow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.3"/>
+            </filter>
+            <!-- グラデーション -->
+            <linearGradient id="gradDay1" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#3b82f6"/>
+              <stop offset="70%" stop-color="#f97316"/>
+              <stop offset="100%" stop-color="#10b981"/>
+            </linearGradient>
+            <linearGradient id="gradDay2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="40%" stop-color="#0284c7"/>
+              <stop offset="100%" stop-color="#3b82f6"/>
+            </linearGradient>
+          </defs>
+
+          <!-- 背景枠ガイド -->
+          <rect x="10" y="10" width="360" height="135" rx="10" fill="#f1f5f9" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+          <text x="20" y="26" font-size="9" font-weight="bold" fill="#64748b">【福島エリア：山・裏磐梯 ⇄ 太平洋・松川浦】</text>
+
+          <rect x="10" y="160" width="360" height="90" rx="10" fill="#f1f5f9" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+          <text x="20" y="176" font-size="9" font-weight="bold" fill="#64748b">【関東・川崎エリア】</text>
+
+          <!-- Day 1 ルートライン（オレンジ点線） -->
+          <path id="svgPathDay1" d="M 120 230 L 120 185 L 105 125 L 85 95 L 75 70 L 105 55 L 130 75" fill="none" stroke="#f97316" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Day 2 ルートライン（ブルー点線） -->
+          <path id="svgPathDay2" d="M 130 75 L 140 45 L 175 42 L 230 42 L 310 50 L 315 95 L 290 185 L 120 230" fill="none" stroke="#0284c7" stroke-width="3" stroke-dasharray="4,3" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- 地点ピン（Day 1） -->
+          <!-- 自宅 -->
+          <circle cx="120" cy="230" r="7" fill="#3b82f6" filter="url(#pinShadow)"/>
+          <circle cx="120" cy="230" r="3" fill="#ffffff"/>
+          <text x="132" y="234" font-size="10" font-weight="bold" fill="#1e293b">川崎 自宅 (発/着)</text>
+
+          <!-- 上河内SA -->
+          <circle cx="120" cy="185" r="5" fill="#f97316"/>
+          <text x="130" y="189" font-size="8" fill="#64748b">上河内SA</text>
+
+          <!-- 猪苗代 / ENEOS & まるいち食堂 -->
+          <circle cx="85" cy="95" r="7" fill="#ea580c" filter="url(#pinShadow)"/>
+          <text x="20" y="105" font-size="9" font-weight="bold" fill="#ea580c">猪苗代(給油/カツ丼)</text>
+
+          <!-- ゴールド・レークライン -->
+          <circle cx="75" cy="70" r="5" fill="#f59e0b"/>
+          <text x="20" y="65" font-size="8" fill="#d97706">ゴールド/レーク</text>
+
+          <!-- 達沢不動滝 (林道ダート) -->
+          <circle cx="105" cy="55" r="6" fill="#16a34a"/>
+          <text x="65" y="45" font-size="8" font-weight="bold" fill="#16a34a">🌲達沢不動滝</text>
+
+          <!-- 宿：ボナリの森 -->
+          <circle cx="130" cy="75" r="8" fill="#0d9488" class="pulse-pin" filter="url(#pinShadow)"/>
+          <circle cx="130" cy="75" r="3" fill="#ffffff"/>
+          <text x="142" y="78" font-size="9" font-weight="bold" fill="#0f766e">🏨ボナリの森(泊)</text>
+
+          <!-- 地点ピン（Day 2） -->
+          <!-- 浄土平・スカイライン -->
+          <circle cx="140" cy="45" r="7" fill="#ef4444"/>
+          <text x="125" y="35" font-size="8" font-weight="bold" fill="#ef4444">🌋浄土平</text>
+
+          <!-- 相馬福島道路（無料矢印） -->
+          <path d="M 185 36 L 270 45" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="2,2"/>
+          <text x="195" y="32" font-size="8" font-weight="bold" fill="#0284c7">相馬福島道路(無料50km)</text>
+
+          <!-- 松川浦 (海鮮ランチ & ENEOS) -->
+          <circle cx="310" cy="50" r="8" fill="#0284c7" class="pulse-pin" filter="url(#pinShadow)"/>
+          <circle cx="310" cy="50" r="3" fill="#ffffff"/>
+          <text x="280" y="70" font-size="9" font-weight="bold" fill="#0369a1">🐟松川浦(海鮮/給油)</text>
+
+          <!-- 常磐道（中郷SA・守谷SA） -->
+          <circle cx="305" cy="120" r="4.5" fill="#0284c7"/>
+          <text x="315" y="124" font-size="8" fill="#64748b">中郷SA</text>
+          <circle cx="290" cy="185" r="4.5" fill="#0284c7"/>
+          <text x="300" y="189" font-size="8" fill="#64748b">守谷SA</text>
+        </svg>
+
+        <div class="flex items-center justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-200/70 mt-1">
+          <span class="flex items-center gap-1"><span class="w-2.5 h-1 bg-orange-500 inline-block rounded"></span>Day1: 山岳＆ダート探勝</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-1 bg-sky-600 inline-block rounded"></span>Day2: 火山〜海鮮〜常磐道</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 給油ステータス ミニカード（ジムニー航続400km安心バッジ） -->
+    <section class="bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl p-3 shadow-xs">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">⛽</span>
+          <div>
+            <div class="text-[10px] text-orange-100 font-semibold uppercase tracking-wider">Jimny Fuel Strategy</div>
+            <div class="text-xs font-bold leading-tight">下道ENEOSで満タン作戦（高価SA給油ゼロ）</div>
+          </div>
+        </div>
+        <div class="text-right">
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/20 font-bold backdrop-blur-xs">航続400km設計</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-white/20 text-[11px]">
+        <div>
+          <span class="text-orange-200">往路:</span> 野口記念館SS (猪苗代)
+        </div>
+        <div>
+          <span class="text-orange-200">復路:</span> 相馬バイパス店 (残310km直行)
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== DAY 1 タイムライン ==================== -->
+    <div id="content-day1" class="space-y-3">
+
+      <!-- 一括全行程ナビボタン -->
+      <a href="https://www.google.com/maps/dir/?api=1&origin=神奈川県川崎市高津区子母口&destination=ボナリの森&waypoints=上河内SA下り%7CENEOS+野口記念館SS%7Cまるいち食堂+猪苗代%7C中津川渓谷レストハウス%7C達沢不動滝+駐車場" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-orange-600 active:bg-orange-700 text-white font-bold text-sm shadow-sm transition">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span>DAY 1 全行程をGoogle Mapsで一括ナビ</span>
+      </a>
+
+      <!-- スポット 1: 出発 -->
+      <div id="card-d1-1" class="spot-card bg-white border border-slate-200 rounded-2xl p-4 shadow-xs transition">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-slate-400">06:30</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">START</span>
+          </div>
+          <button onclick="toggleDone('card-d1-1')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">自宅出発（川崎市高津区子母口）</h3>
+        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+          首都高速〜東北自動車道へ。近隣ENEOSで満タン確認してスタート。
+        </p>
+      </div>
+
+      <!-- スポット 2: 上河内SA -->
+      <div id="card-d1-2" class="spot-card bg-white border border-slate-200 rounded-2xl p-4 shadow-xs transition">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-orange-600">08:30〜08:50</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-orange-100 text-orange-800 font-bold">約180km地点</span>
+          </div>
+          <button onclick="toggleDone('card-d1-2')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">上河内SA（下り）休憩</h3>
+        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+          トイレ休憩＆コーヒーブレイク。長距離運転の疲れをリセット。
+        </p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=上河内SA+下り" target="_blank" rel="noopener noreferrer" class="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-orange-500 active:bg-orange-600 text-white font-bold text-xs shadow-2xs">
+          <span>🚗 上河内SA へナビ開始</span>
+        </a>
+      </div>
+
+      <!-- スポット 3: ENEOS 野口記念館SS -->
+      <div id="card-d1-3" class="spot-card bg-white border-2 border-orange-400/80 rounded-2xl p-4 shadow-xs transition bg-orange-50/20">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-orange-600">10:55</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-500 text-white font-bold">⛽ 往路満タン給油①</span>
+          </div>
+          <button onclick="toggleDone('card-d1-3')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">ENEOS 野口記念館SS（猪苗代）</h3>
+        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+          <strong>10:45 猪苗代磐梯高原IC流出（走行約280km）</strong>後、車で約4分の下道セルフ。<br>
+          山岳・林道ドライブに入る前に満タンにして航続距離の不安を解消！
+        </p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=ENEOS+野口記念館SS" target="_blank" rel="noopener noreferrer" class="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-orange-500 active:bg-orange-600 text-white font-bold text-xs shadow-2xs">
+          <span>⛽ ENEOS 野口記念館SS へナビ開始</span>
+        </a>
+      </div>
+
+      <!-- スポット 4: まるいち食堂（ソースカツ丼） -->
+      <div id="card-d1-4" class="spot-card bg-white border border-slate-200 rounded-2xl p-4 shadow-xs transition">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-orange-600">11:15〜12:15</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-bold">会津名物ランチ</span>
+          </div>
+          <button onclick="toggleDone('card-d1-4')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">まるいち食堂（ソースカツ丼）</h3>
+        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+          丼を覆い尽くすサクサク・分厚いロースカツと特製甘辛ソースの絶品カツ丼！12時台前半のピーク前にスムーズに入店してスタミナ補給。
+        </p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=まるいち食堂+猪苗代" target="_blank" rel="noopener noreferrer" class="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-orange-500 active:bg-orange-600 text-white font-bold text-xs shadow-2xs">
+          <span>🍚 まるいち食堂 へナビ開始</span>
+        </a>
+      </div>
+
+      <!-- スポット 5: ゴールドライン & レークライン -->
+      <div id="card-d1-5" class="spot-card bg-white border border-slate-200 rounded-2xl p-4 shadow-xs transition">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-slate-500">12:30〜14:30</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-700 font-semibold">2大スカイライン</span>
+          </div>
+          <button onclick="toggleDone('card-d1-5')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">磐梯山ゴールドライン ＆ レークライン</h3>
+        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+          磐梯山西側山腹を駆け上がり裏磐梯へ。秋元湖・小野川湖の間を縫うパノラマロードを抜け、「中津川渓谷レストハウス」で紅葉の渓谷美を眺めて東進。
+        </p>
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=磐梯山ゴールドライン+八方台" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2.5 rounded-xl bg-slate-100 active:bg-slate-200 text-slate-700 font-bold text-[11px]">
+            <span>ゴールドライン</span>
+          </a>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=中津川渓谷レストハウス" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2.5 rounded-xl bg-orange-500 active:bg-orange-600 text-white font-bold text-[11px]">
+            <span>🚗 中津川渓谷 へナビ</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- スポット 6: 達沢不動滝 ＆ 林道ダート -->
+      <div id="card-d1-6" class="spot-card bg-white border-2 border-emerald-500/80 rounded-2xl p-4 shadow-xs transition bg-emerald-50/20">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-emerald-700">14:45〜15:45</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-600 text-white font-bold">🌲 ジムニーダート探勝</span>
+          </div>
+          <button onclick="toggleDone('card-d1-6')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">達沢不動滝 ＆ ブナ原生林林道</h3>
+        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+          <strong>【ジムニーならではの探勝】</strong><br>
+          達沢集落から分岐し、ブナの原生林を抜ける未舗装フラットダートをトコトコ走って滝駐車場へ。苔むした巨木が並ぶ参道を徒歩10分歩くと、一枚岩を簾のように滑り落ちる名瀑「達沢不動滝（男滝・女滝）」の紅葉絶景が広がります。
+        </p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=達沢不動滝+駐車場" target="_blank" rel="noopener noreferrer" class="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-emerald-600 active:bg-emerald-700 text-white font-bold text-xs shadow-2xs">
+          <span>🌲 達沢不動滝 駐車場 へナビ開始</span>
+        </a>
+      </div>
+
+      <!-- スポット 7: 宿 ボナリの森 -->
+      <div id="card-d1-7" class="spot-card bg-white border-2 border-teal-500 rounded-2xl p-4 shadow-xs transition bg-teal-50/30">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-teal-700">16:00</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-teal-600 text-white font-bold">🏨 CHECK-IN</span>
+          </div>
+          <button onclick="toggleDone('card-d1-7')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">磐梯名湯リゾート ボナリの森</h3>
+        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+          達沢不動滝から車でわずか約5〜10分！夕暮れ前の落ち着いた時間にチェックイン。日本有数の毎分湧出量を誇る中ノ沢温泉の酸性硫黄泉に浸かり、長距離ドライブの疲れを癒やします。
+        </p>
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <a href="tel:0242643311" class="flex items-center justify-center gap-1 py-2.5 rounded-xl bg-slate-100 active:bg-slate-200 text-slate-700 font-bold text-xs">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 4V3z"/></svg>
+            <span>電話をかける</span>
+          </a>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=ボナリの森" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-1 py-2.5 rounded-xl bg-teal-600 active:bg-teal-700 text-white font-bold text-xs shadow-2xs">
+            <span>🚗 宿へナビ開始</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== DAY 2 タイムライン ==================== -->
+    <div id="content-day2" class="hidden space-y-3">
+
+      <!-- 一括全行程ナビボタン -->
+      <a href="https://www.google.com/maps/dir/?api=1&origin=ボナリの森&destination=神奈川県川崎市高津区子母口&waypoints=浄土平ビジターセンター%7C不動沢橋+つばくろ谷%7C福島大笹生IC%7C浜の駅+松川浦%7CENEOS+Dr.Drive+相馬バイパス店%7C中郷SA上り" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-sky-600 active:bg-sky-700 text-white font-bold text-sm shadow-sm transition">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span>DAY 2 全行程をGoogle Mapsで一括ナビ</span>
+      </a>
+
+      <!-- スポット 1: ボナリの森 出発 -->
+      <div id="card-d2-1" class="spot-card bg-white border border-slate-200 rounded-2xl p-4 shadow-xs transition">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-slate-500">08:30</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold">START</span>
+          </div>
+          <button onclick="toggleDone('card-d2-1')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">ボナリの森 出発</h3>
+        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+          朝風呂と朝食を終えて出発。国道115号を東へ向かい土湯峠へ。
+        </p>
+      </div>
+
+      <!-- スポット 2: 磐梯吾妻スカイライン（浄土平〜つばくろ谷） -->
+      <div id="card-d2-2" class="spot-card bg-white border-2 border-red-400/80 rounded-2xl p-4 shadow-xs transition bg-red-50/20">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-red-600">08:45〜10:15</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-red-500 text-white font-bold">🌋 火山絶景ロード</span>
+          </div>
+          <button onclick="toggleDone('card-d2-2')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">磐梯吾妻スカイライン（浄土平〜つばくろ谷）</h3>
+        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+          土湯峠から登り、荒涼とした火山の絶景が広がる「浄土平（標高1,600m）」へ。吾妻小富士の眺望を満喫後、名橋「不動沢橋（つばくろ谷）」の紅葉を眺めて高湯温泉側へ下山。
+        </p>
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=浄土平ビジターセンター" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2.5 rounded-xl bg-red-500 active:bg-red-600 text-white font-bold text-xs shadow-2xs">
+            <span>🚗 浄土平 へナビ</span>
+          </a>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=不動沢橋+つばくろ谷" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2.5 rounded-xl bg-slate-100 active:bg-slate-200 text-slate-700 font-bold text-xs">
+            <span>つばくろ谷 へナビ</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- スポット 3: 相馬福島道路（無料区間） -->
+      <div id="card-d2-3" class="spot-card bg-white border border-slate-200 rounded-2xl p-4 shadow-xs transition">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-sky-600">10:40〜11:35</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-sky-100 text-sky-800 font-bold">無料高速 50km</span>
+          </div>
+          <button onclick="toggleDone('card-d2-3')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">福島大笹生IC 〜 相馬福島道路</h3>
+        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+          高湯温泉を下りてすぐ東北中央道へ流入。全線無料の快適な高規格道路で阿武隈山地を一気にトンネル貫通！山から海への景色の変化を体感。
+        </p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=福島大笹生IC" target="_blank" rel="noopener noreferrer" class="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-sky-600 active:bg-sky-700 text-white font-bold text-xs shadow-2xs">
+          <span>🚗 福島大笹生IC 流入ナビ</span>
+        </a>
+      </div>
+
+      <!-- スポット 4: 松川浦 海鮮ランチセレクター -->
+      <div id="card-d2-4" class="spot-card bg-white border-2 border-sky-400 rounded-2xl p-4 shadow-xs transition bg-sky-50/20">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-sky-700">11:45〜12:45</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-500 text-white font-bold">🐟 松川浦 海鮮ランチ</span>
+          </div>
+          <button onclick="toggleDone('card-d2-4')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">松川浦ランチ＆海沿いショートドライブ</h3>
+        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+          全国に名高い「常磐もの」の宝庫！食後は松川浦大橋周辺の潮風を感じる海沿いドライブ。
+        </p>
+
+        <!-- 3店舗セレクター -->
+        <div class="mt-3 space-y-2">
+          <div class="text-[11px] font-bold text-slate-700">行きたいお店をタップしてナビ開始：</div>
+
+          <!-- 店 1: くぁせっと -->
+          <a href="https://www.google.com/maps/dir/?api=1&destination=浜の駅+松川浦+浜の台所+くぁせっと" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 rounded-xl bg-white border border-sky-200 active:bg-sky-50 shadow-2xs">
+            <div>
+              <div class="text-xs font-bold text-sky-900">① 浜の台所 くぁせっと（浜の駅内）</div>
+              <div class="text-[10px] text-slate-500">食券制ソロ向き・地魚海鮮丼・あさり汁・お土産</div>
+            </div>
+            <span class="text-xs font-bold text-sky-600 shrink-0 ml-2">ナビ →</span>
+          </a>
+
+          <!-- 店 2: 齋春 -->
+          <a href="https://www.google.com/maps/dir/?api=1&destination=お食事処+齋春+相馬" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 rounded-xl bg-white border border-sky-200 active:bg-sky-50 shadow-2xs">
+            <div>
+              <div class="text-xs font-bold text-sky-900">② お食事処 齋春（さいはる）</div>
+              <div class="text-[10px] text-slate-500">魚卸問屋直営・海が見える・赤酢シャリ海鮮丼</div>
+            </div>
+            <span class="text-xs font-bold text-sky-600 shrink-0 ml-2">ナビ →</span>
+          </a>
+
+          <!-- 店 3: たこ八 -->
+          <a href="https://www.google.com/maps/dir/?api=1&destination=お食事処+たこ八+相馬" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 rounded-xl bg-white border border-sky-200 active:bg-sky-50 shadow-2xs">
+            <div>
+              <div class="text-xs font-bold text-sky-900">③ お食事処 たこ八</div>
+              <div class="text-[10px] text-slate-500">ライダー御用達・秋名物「ほっき飯定食」</div>
+            </div>
+            <span class="text-xs font-bold text-sky-600 shrink-0 ml-2">ナビ →</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- スポット 5: ENEOS 相馬バイパス店 -->
+      <div id="card-d2-5" class="spot-card bg-white border-2 border-orange-400/80 rounded-2xl p-4 shadow-xs transition bg-orange-50/20">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-orange-600">13:00</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-500 text-white font-bold">⛽ 復路満タン給油②</span>
+          </div>
+          <button onclick="toggleDone('card-d2-5')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">ENEOS Dr.Drive 相馬バイパス店</h3>
+        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+          常磐道・相馬ICに乗る直前の下道セルフ。<br>
+          <strong>ここから川崎の自宅まで約310km。</strong> 満タンで約90km分の余裕を残して無給油で走り切れるため、高価な高速SA給油は一切不要！
+        </p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=ENEOS+Dr.Drive+相馬バイパス店" target="_blank" rel="noopener noreferrer" class="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-orange-500 active:bg-orange-600 text-white font-bold text-xs shadow-2xs">
+          <span>⛽ 相馬バイパス店 へナビ開始</span>
+        </a>
+      </div>
+
+      <!-- スポット 6: 常磐道・相馬IC 〜 SA休憩 -->
+      <div id="card-d2-6" class="spot-card bg-white border border-slate-200 rounded-2xl p-4 shadow-xs transition">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-slate-500">13:15〜16:35</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-700 font-semibold">常磐道クルージング</span>
+          </div>
+          <button onclick="toggleDone('card-d2-6')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">相馬IC 流入 〜 2回SA休憩</h3>
+        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+          土曜夕方の東北道上り渋滞を完全回避！車線が多くフラットな常磐道で順調に南下。<br>
+          ・<strong>14:45〜15:00 中郷SA</strong>（約1時間半地点で休憩）<br>
+          ・<strong>16:20〜16:35 守谷SA</strong>（首都高流入前の小休止）
+        </p>
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=中郷SA+上り" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2.5 rounded-xl bg-slate-100 active:bg-slate-200 text-slate-700 font-bold text-[11px]">
+            <span>中郷SA ナビ</span>
+          </a>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=守谷SA+上り" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center py-2.5 rounded-xl bg-slate-100 active:bg-slate-200 text-slate-700 font-bold text-[11px]">
+            <span>守谷SA ナビ</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- スポット 7: 自宅帰着 -->
+      <div id="card-d2-7" class="spot-card bg-white border-2 border-emerald-500 rounded-2xl p-4 shadow-xs transition bg-emerald-50/20">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs font-bold text-emerald-700">17:45〜18:00</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-600 text-white font-bold">🎯 GOAL (18:00帰着)</span>
+          </div>
+          <button onclick="toggleDone('card-d2-7')" class="text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn">完了にする ✓</button>
+        </div>
+        <h3 class="spot-title text-base font-bold text-slate-900 mt-1">自宅到着（川崎市高津区子母口）</h3>
+        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+          お疲れさまでした！定刻18時前後にぴったり無事帰宅。
+        </p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=神奈川県川崎市高津区子母口" target="_blank" rel="noopener noreferrer" class="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-emerald-600 active:bg-emerald-700 text-white font-bold text-xs shadow-2xs">
+          <span>🏠 自宅へナビ開始</span>
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ==================== 片手操作・固定ボトムバー ==================== -->
+  <aside class="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-2.5 shadow-lg">
+    <div class="max-w-lg mx-auto flex items-center gap-3">
+      <div class="flex-1 min-w-0">
+        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Quick Direct Navigation</div>
+        <div id="bottomNavLabel" class="text-xs font-bold text-slate-800 truncate">Day 1: 上河内SA (下り)</div>
+      </div>
+      <a id="bottomNavBtn" href="https://www.google.com/maps/dir/?api=1&destination=上河内SA+下り" target="_blank" rel="noopener noreferrer" class="shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-orange-600 active:bg-orange-700 text-white text-xs font-bold shadow-sm transition">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span>今すぐナビ起動</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ==================== モバイルスクリプト ==================== -->
+  <script>
+    let currentDay = 'day1';
+
+    function switchDay(day) {
+      currentDay = day;
+      const btn1 = document.getElementById('tab-btn-day1');
+      const btn2 = document.getElementById('tab-btn-day2');
+      const content1 = document.getElementById('content-day1');
+      const content2 = document.getElementById('content-day2');
+      const bottomLabel = document.getElementById('bottomNavLabel');
+      const bottomBtn = document.getElementById('bottomNavBtn');
+
+      if (day === 'day1') {
+        btn1.className = "py-2 rounded-lg bg-white text-orange-600 shadow-xs transition text-center cursor-pointer";
+        btn2.className = "py-2 rounded-lg text-slate-500 hover:text-slate-800 transition text-center cursor-pointer";
+        content1.classList.remove('hidden');
+        content2.classList.add('hidden');
+        bottomLabel.innerText = "Day 1 次: 上河内SA (下り)";
+        bottomBtn.href = "https://www.google.com/maps/dir/?api=1&destination=上河内SA+下り";
+        bottomBtn.className = "shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-orange-600 active:bg-orange-700 text-white text-xs font-bold shadow-sm transition";
+      } else {
+        btn2.className = "py-2 rounded-lg bg-white text-sky-600 shadow-xs transition text-center cursor-pointer";
+        btn1.className = "py-2 rounded-lg text-slate-500 hover:text-slate-800 transition text-center cursor-pointer";
+        content2.classList.remove('hidden');
+        content1.classList.add('hidden');
+        bottomLabel.innerText = "Day 2 次: 浄土平ビジターセンター";
+        bottomBtn.href = "https://www.google.com/maps/dir/?api=1&destination=浄土平ビジターセンター";
+        bottomBtn.className = "shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-sky-600 active:bg-sky-700 text-white text-xs font-bold shadow-sm transition";
+      }
+    }
+
+    function toggleDone(cardId) {
+      const card = document.getElementById(cardId);
+      if (!card) return;
+      card.classList.toggle('completed');
+      const btn = card.querySelector('.check-btn');
+      if (card.classList.contains('completed')) {
+        btn.innerText = '取消 ↺';
+        btn.className = 'text-xs text-emerald-600 font-bold check-btn';
+      } else {
+        btn.innerText = '完了にする ✓';
+        btn.className = 'text-xs text-slate-400 hover:text-emerald-600 font-medium check-btn';
+      }
+    }
+
+    function toggleMapModal() {
+      const mapSec = document.getElementById('mapSection');
+      if (mapSec) {
+        mapSec.scrollIntoView({ behavior: 'smooth' });
+        mapSec.classList.add('ring-2', 'ring-orange-400');
+        setTimeout(() => mapSec.classList.remove('ring-2', 'ring-orange-400'), 1000);
+      }
+    }
+  </script>
+</body>
+</html>
