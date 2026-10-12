@@ -1,0 +1,143 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Google Antigravity//Jimny Tour Guide 2026//JA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:会津・磐梯山・松川浦 ジムニーツアー
+X-WR-TIMEZONE:Asia/Tokyo
+BEGIN:VTIMEZONE
+TZID:Asia/Tokyo
+BEGIN:STANDARD
+TZOFFSETFROM:+0900
+TZOFFSETTO:+0900
+TZNAME:JST
+DTSTART:19700101T000000
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:jimny-tour-20261016-d1-01@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261016T063000
+DTEND;TZID=Asia/Tokyo:20261016T083000
+SUMMARY:🚗 自宅出発（会津・磐梯山ジムニーツアー）
+LOCATION:神奈川県川崎市高津区子母口
+DESCRIPTION:首都高速〜東北自動車道へ。近隣ENEOSで満タン確認してスタート。\nスマホWebガイド: https://michu3.github.io/jimny-tour-guide/
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261016-d1-02@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261016T083000
+DTEND;TZID=Asia/Tokyo:20261016T085000
+SUMMARY:☕ 上河内SA（下り）休憩
+LOCATION:上河内SA 下り
+DESCRIPTION:走行約180km地点。トイレ休憩＆コーヒーブレイク。\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=上河内SA+下り
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261016-d1-03@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261016T104500
+DTEND;TZID=Asia/Tokyo:20261016T110500
+SUMMARY:⛽ 猪苗代磐梯高原IC流出 ＆ ENEOS 野口記念館SS（満タン給油①）
+LOCATION:ENEOS 野口記念館SS
+DESCRIPTION:10:45 猪苗代磐梯高原IC流出（走行約280km）後、車で約4分の下道セルフSSで往路満タン給油。\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=ENEOS+野口記念館SS
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261016-d1-04@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261016T111500
+DTEND;TZID=Asia/Tokyo:20261016T115500
+SUMMARY:🍚 ランチ：まるいち食堂（会津名物ソースカツ丼）
+LOCATION:まるいち食堂 猪苗代
+DESCRIPTION:11:15開店直後に入店。丼を覆い尽くす分厚いロースカツと特製甘辛ソースの絶品ソースカツ丼。\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=まるいち食堂+猪苗代
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261016-d1-04b@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261016T122500
+DTEND;TZID=Asia/Tokyo:20261016T131500
+SUMMARY:☕ 野口英世青春館（會津壹番館）＆ 七日町通り散策
+LOCATION:福島県会津若松市中町4-18
+DESCRIPTION:野口英世が左手の手術を受け医学を志した明治の蔵造り洋館（旧會陽医院）。\n・1F「會津壹番館」で磐梯山伏流水の自家焙煎コーヒー＆蔵プリン\n・2F「野口英世青春館」資料館（入館100円）と七日町通りレトロ建築散策\n・駐車場：店舗脇専用P、または徒歩2分「中町まちなか市民広場 無料駐車場（会津若松市中町2-46、9〜17時無料）」\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=野口英世青春館+會津壹番館
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261016-d1-05@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261016T133500
+DTEND;TZID=Asia/Tokyo:20261016T145000
+SUMMARY:🍁 磐梯山ゴールドライン ＆ 磐梯吾妻レークライン（中津川渓谷）
+LOCATION:中津川渓谷レストハウス
+DESCRIPTION:七日町・中町から県道64号を北上しゴールドラインへ直結！八方台を経て裏磐梯へ抜け、レークラインの中津川渓谷レストハウスで紅葉の渓谷美を堪能。\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=中津川渓谷レストハウス
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261016-d1-06@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261016T150000
+DTEND;TZID=Asia/Tokyo:20261016T155000
+SUMMARY:🌲 達沢不動滝 ＆ ブナ原生林ダート探勝
+LOCATION:達沢不動滝 駐車場
+DESCRIPTION:達沢集落からブナ原生林の未舗装フラットダートをジムニーで走行し駐車場へ。徒歩10分で名瀑「達沢不動滝（男滝・女滝）」を散策。\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=達沢不動滝+駐車場
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261016-d1-07@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261016T160000
+DTEND;TZID=Asia/Tokyo:20261017T083000
+SUMMARY:🏨 宿泊：磐梯名湯リゾート ボナリの森（中ノ沢温泉）
+LOCATION:磐梯名湯リゾート ボナリの森
+DESCRIPTION:達沢不動滝から車で約5〜10分。定刻16:00チェックイン。日本有数の湧出量を誇る中ノ沢温泉の酸性硫黄泉源泉かけ流しを満喫。\nTEL: 0242-64-3311\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=ボナリの森
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261017-d2-01@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261017T083000
+DTEND;TZID=Asia/Tokyo:20261017T101500
+SUMMARY:🌋 ボナリの森出発 〜 磐梯吾妻スカイライン（浄土平・つばくろ谷）
+LOCATION:浄土平ビジターセンター
+DESCRIPTION:08:30出発。土湯峠から標高1,600mの火山荒原「浄土平」へ。吾妻小富士の眺望と名橋「不動沢橋（つばくろ谷）」の紅葉を眺めて高湯温泉側へ下山。\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=浄土平ビジターセンター
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261017-d2-02@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261017T104000
+DTEND;TZID=Asia/Tokyo:20261017T113500
+SUMMARY:🛣️ 福島大笹生IC 〜 相馬福島道路（無料高規格道路50km）
+LOCATION:福島大笹生IC
+DESCRIPTION:全線無料の相馬福島道路で阿武隈山地を一気に貫通し太平洋・相馬へ。\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=福島大笹生IC
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261017-d2-03@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261017T114500
+DTEND;TZID=Asia/Tokyo:20261017T124500
+SUMMARY:🐟 松川浦 海鮮ランチ ＆ 海沿いショートドライブ
+LOCATION:浜の駅 松川浦
+DESCRIPTION:常磐ものの宝庫・松川浦で海鮮ランチ（①浜の台所くぁせっと / ②お食事処 齋春 / ③たこ八）。食後は松川浦大橋周辺を潮風ドライブ。\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=浜の駅+松川浦
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261017-d2-04@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261017T130000
+DTEND;TZID=Asia/Tokyo:20261017T131500
+SUMMARY:⛽ 給油②：ENEOS Dr.Drive 相馬バイパス店（復路満タン）
+LOCATION:ENEOS Dr.Drive 相馬バイパス店
+DESCRIPTION:常磐道・相馬IC流入直前の下道セルフSSで満タン給油。ここから川崎の自宅まで約310km（無給油直行可能）。\nGoogle Mapsナビ: https://www.google.com/maps/dir/?api=1&destination=ENEOS+Dr.Drive+相馬バイパス店
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261017-d2-05@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261017T131500
+DTEND;TZID=Asia/Tokyo:20261017T163500
+SUMMARY:🛣️ 常磐道 相馬IC流入 〜 中郷SA(14:45) ＆ 守谷SA(16:20)休憩
+LOCATION:中郷SA 上り
+DESCRIPTION:土曜夕方の東北道上り渋滞を回避し、常磐道で快適クルージング。\n・14:45〜15:00 中郷SA（上り）\n・16:20〜16:35 守谷SA（上り）
+END:VEVENT
+BEGIN:VEVENT
+UID:jimny-tour-20261017-d2-06@antigravity.local
+DTSTAMP:20261012T150000Z
+DTSTART;TZID=Asia/Tokyo:20261017T174500
+DTEND;TZID=Asia/Tokyo:20261017T180000
+SUMMARY:🏠 自宅帰着（川崎市高津区子母口）
+LOCATION:神奈川県川崎市高津区子母口
+DESCRIPTION:定刻18:00前後に無事帰宅！お疲れさまでした。
+END:VEVENT
+END:VCALENDAR
